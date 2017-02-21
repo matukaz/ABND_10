@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ABND_10_Inventory_app</string>
+    <string name="no_products_found">No products found :( </string>
+    <string name="add_product_with_button">Add product with + button</string>
+    <string name="cannot_query_unknown_uri">"Cannot query unknown URI "</string>
+
+    <string name="quantity">Quantity: %d</string>
+    <string name="price">Price: %d</string>
+</resources>
