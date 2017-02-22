@@ -105,11 +105,13 @@ public class ProductProvider extends ContentProvider {
     }
 
     private Uri insertProduct(Uri uri, ContentValues contentValues) {
-        //TODO data validation
-        SQLiteDatabase db = productDBHelper.getReadableDatabase();
-        long newRowId = db.insert(ProductTable.TABLE_NAME, null, contentValues);
-        getContext().getContentResolver().notifyChange(uri, null);
-        return ContentUris.withAppendedId(uri, newRowId);
+        if(dataValidation(contentValues)) {
+            SQLiteDatabase db = productDBHelper.getReadableDatabase();
+            long newRowId = db.insert(ProductTable.TABLE_NAME, null, contentValues);
+            getContext().getContentResolver().notifyChange(uri, null);
+            return ContentUris.withAppendedId(uri, newRowId);
+        }
+        throw new IllegalArgumentException("something went wrong :(");
     }
 
     @Override
@@ -137,11 +139,10 @@ public class ProductProvider extends ContentProvider {
     public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
         // Otherwise, get writeable database to update the data
 
-        //TODO data validation
-       /** if (dataValidation(values)) {
-            // Returns the number of database rows affected by the update statement
+        if (dataValidation(contentValues)) {
+            throw new IllegalArgumentException("something went wrong :(");
         }
-        throw new IllegalArgumentException("something went wrong :("); */
+
 
         final int match = sUriMatcher.match(uri);
         switch (match) {
@@ -165,16 +166,43 @@ public class ProductProvider extends ContentProvider {
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = productDBHelper.getWritableDatabase();
 
-       // if (dataValidation(values)) {
-            // Returns the number of database rows affected by the update statement
+        if (dataValidation(values)) {
+
 
             getContext().getContentResolver().notifyChange(uri, null);
             return database.update(ProductTable.TABLE_NAME, values, selection, selectionArgs);
 
-        //}
-       // throw new IllegalArgumentException("something went wrong :(");
+        }
+        throw new IllegalArgumentException("something went wrong :(");
     }
 
 
-    //Validation quantity can't be -1
+    public boolean dataValidation(ContentValues values) {
+        String name = values.getAsString(ProductTable.COLUMN_PRODUCT_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Named required");
+        }
+
+        Integer quantity = values.getAsInteger(ProductTable.COLUMN_PRODUCT_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("quantity not valid");
+        }
+
+        Integer price = values.getAsInteger(ProductTable.COLUMN_PRODUCT_PRICE);
+        if (price != null && quantity < 0) {
+            throw new IllegalArgumentException("quantity not valid");
+        }
+
+        String phoneNumber = values.getAsString(ProductTable.COLUMN_PRODUCT_CONTACT_PHONE);
+        if (phoneNumber == null) {
+            throw new IllegalArgumentException("Named required");
+        }
+
+        String email = values.getAsString(ProductTable.COLUMN_PRODUCT_CONTACT_EMAIL);
+        if (email == null) {
+            throw new IllegalArgumentException("Named required");
+        }
+
+        return true;
+    }
 }

@@ -16,8 +16,6 @@ import android.widget.ListView;
 
 import com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable;
 
-//TODO delete me
-
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListView productListView;
