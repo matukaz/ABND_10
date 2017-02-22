@@ -1,10 +1,8 @@
 package com.teddydev.abnd_10_inventory_app;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.TextView;
 import com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable;
 
 import static com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable.COLUMN_PRODUCT_QUANTITY;
-import static com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable.CONTENT_URI;
 
 /**
  * Created by Matu on 20.02.2017.
@@ -66,21 +63,8 @@ public class ProductAdapter extends CursorAdapter {
         if(quantity >= 0) {
             ContentValues values = new ContentValues();
             values.put(COLUMN_PRODUCT_QUANTITY, quantity);
-            context.getContentResolver().insert(CONTENT_URI, values);
-
-            Uri uri = ContentUris.withAppendedId(ProductTable.CONTENT_URI, id);
-            Long selectionId = ContentUris.parseId(uri);
-
-            // Defines selection criteria for the rows you want to update
-            String[] args = {String.valueOf(selectionId)};
-            context.getContentResolver().update(uri, values, ProductTable._ID + "=?", args);
-
-            context.getContentResolver().update(
-                    uri,   // the user dictionary content URI
-                    values,                      // the columns to update
-                    null,
-                    null
-            );
+            String[] args = {String.valueOf(id)};
+            context.getContentResolver().update(ProductTable.CONTENT_URI, values, ProductTable._ID + "=?", args);
         }
     }
 }
