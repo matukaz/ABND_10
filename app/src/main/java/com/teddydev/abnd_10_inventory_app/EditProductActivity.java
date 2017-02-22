@@ -154,7 +154,7 @@ public class EditProductActivity extends AppCompatActivity implements LoaderMana
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (getIntent().getData() != null) {
+        if (getIntent().getData() == null) {
             MenuItem actionDelete = menu.findItem(R.id.action_delete);
             MenuItem orderMoreItem = menu.findItem(R.id.order_more);
             actionDelete.setVisible(false);
