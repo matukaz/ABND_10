@@ -113,12 +113,71 @@ public class ProductProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        // Get writeable database
+        SQLiteDatabase database = productDBHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case PRODUCTS:
+                // Delete all rows that match the selection and selection args
+                getContext().getContentResolver().notifyChange(uri, null);
+                return database.delete(ProductTable.TABLE_NAME, selection, selectionArgs);
+            case PRODUCT_ID:
+                // Delete a single row given by the ID in the URI
+                selection = ProductTable._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                getContext().getContentResolver().notifyChange(uri, null);
+                return database.delete(ProductTable.TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
-        return 0;
+    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+        // Otherwise, get writeable database to update the data
+
+        //TODO data validation
+       /** if (dataValidation(values)) {
+            // Returns the number of database rows affected by the update statement
+        }
+        throw new IllegalArgumentException("something went wrong :("); */
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case PRODUCTS:
+                return updateProduct(uri, contentValues, selection, selectionArgs);
+            case PRODUCT_ID:
+                // For the PET_ID code, extract out the ID from the URI,
+                // so we know which row to update. Selection will be "_id=?" and selection
+                // arguments will be a String array containing the actual ID.
+                selection = ProductTable._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                int rowsUpdate = updateProduct(uri, contentValues, selection, selectionArgs);
+                if (rowsUpdate != 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+                return updateProduct(uri, contentValues, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
     }
+
+    private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        // Otherwise, get writeable database to update the data
+        SQLiteDatabase database = productDBHelper.getWritableDatabase();
+
+       // if (dataValidation(values)) {
+            // Returns the number of database rows affected by the update statement
+
+            getContext().getContentResolver().notifyChange(uri, null);
+            return database.update(ProductTable.TABLE_NAME, values, selection, selectionArgs);
+
+        //}
+       // throw new IllegalArgumentException("something went wrong :(");
+    }
+
+
+    //Validation quantity can't be -1
 }

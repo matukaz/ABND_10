@@ -30,15 +30,19 @@
             android:layout_height="wrap_content"
             tools:text="price: 100" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="0dp"
         android:gravity="right"
         android:layout_weight="1"
+        android:focusable="false"
         android:layout_height="match_parent">
     <Button
+        android:id="@+id/button_sale"
+        android:focusable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sale"/>
+        android:text="@string/sale"/>
     </LinearLayout>
 
 

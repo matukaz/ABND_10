@@ -20,6 +20,11 @@
             android:name=".ContentProvider.ProductProvider"
             android:authorities="com.teddydev.abnd_10_inventory_app"
             android:exported="false" />
+
+        <activity
+            android:name=".EditProductActivity"
+            android:label="Add product"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

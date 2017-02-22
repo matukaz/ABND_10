@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="36dp"
+    tools:context="com.teddydev.abnd_10_inventory_app.EditProductActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_error_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add new product!" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_title" />
+
+        <EditText
+            android:id="@+id/edit_product_name"
+            style="@style/EditTextStyle"
+            android:hint="@string/hint_name"
+            android:inputType="textCapWords" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quantity_title" />
+
+        <EditText
+            android:id="@+id/edit_product_quantity"
+            style="@style/EditTextStyle"
+            android:hint="@string/hint_quantity"
+            android:inputType="number|numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_title" />
+
+        <EditText
+            android:id="@+id/edit_product_price"
+            style="@style/EditTextStyle"
+            android:hint="@string/hint_price"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/supplier_phone" />
+
+        <EditText
+            android:id="@+id/edit_product_phone_number"
+            style="@style/EditTextStyle"
+            android:hint="@string/hint_contact_info"
+            android:inputType="phone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/supplier_email" />
+
+        <EditText
+            android:id="@+id/edit_product_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/supplier_email"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:id="@+id/button_product_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_product_image" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="center" />
+    </LinearLayout>
+</ScrollView>

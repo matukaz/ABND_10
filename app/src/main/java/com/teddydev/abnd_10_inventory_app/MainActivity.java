@@ -1,26 +1,20 @@
 package com.teddydev.abnd_10_inventory_app;
 
-import android.content.ContentValues;
+import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable;
-import com.teddydev.abnd_10_inventory_app.Database.ProductDBHelper;
-
-import static com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable.COLUMN_PRODUCT_CONTACT_INFO;
-import static com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable.COLUMN_PRODUCT_NAME;
-import static com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable.COLUMN_PRODUCT_PRICE;
-import static com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable.COLUMN_PRODUCT_QUANTITY;
-import static com.teddydev.abnd_10_inventory_app.Database.ProductContract.ProductTable.TABLE_NAME;
 
 //TODO delete me
 
@@ -33,7 +27,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private FloatingActionButton.OnClickListener addProductFloatingBtnOnClickListener = new FloatingActionButton.OnClickListener() {
         @Override
         public void onClick(View view) {
-            // Add product
+            Intent intent = new Intent(MainActivity.this, EditProductActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    private ListView.OnItemClickListener productItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            Intent intent = new Intent(MainActivity.this, EditProductActivity.class);
+            Uri uri = ContentUris.withAppendedId(ProductTable.CONTENT_URI, id);
+            intent.setData(uri);
+            startActivity(intent);
         }
     };
 
@@ -49,32 +54,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         productListView = (ListView) findViewById(R.id.products_list);
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
+        productListView.setOnItemClickListener(productItemClickListener);
 
         productAdapter = new ProductAdapter(this, null);
         productListView.setAdapter(productAdapter);
 
         getSupportLoaderManager().initLoader(0, null, this);
-        //TODO delete me
-        insertMockDataForTesting();
     }
 
-    private void insertMockDataForTesting() {
 
-
-        ProductDBHelper productDBHelper = new ProductDBHelper(this);
-        SQLiteDatabase db = productDBHelper.getWritableDatabase();
-
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_PRODUCT_NAME, "TEST PRODUCT NAME");
-        values.put(COLUMN_PRODUCT_QUANTITY, 10);
-        values.put(COLUMN_PRODUCT_PRICE, 100);
-        values.put(COLUMN_PRODUCT_CONTACT_INFO, "www.google.ee");
-        // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(TABLE_NAME, null, values);
-        Log.d("this", newRowId + "?????");
-
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -96,4 +84,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<Cursor> loader) {
         productAdapter.swapCursor(null);
     }
+
 }

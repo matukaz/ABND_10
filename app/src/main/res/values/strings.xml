@@ -6,4 +6,24 @@
 
     <string name="quantity">Quantity: %d</string>
     <string name="price">Price: %d</string>
+    <string name="hint_name">name</string>
+    <string name="hint_quantity">quantity</string>
+    <string name="hint_price">price</string>
+    <string name="hint_contact_info">phone number</string>
+    <string name="save">save</string>
+    <string name="edit_product">Edit product</string>
+    <string name="sale">sale</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">cancel</string>
+    <string name="delete_dialog_msg">Delete this product?</string>
+    <string name="supplier_phone">Supplier phone</string>
+    <string name="supplier_email">Supplier email</string>
+    <string name="select_product_image">select product image</string>
+    <string name="price_title">Price</string>
+    <string name="quantity_title">quantity</string>
+    <string name="name_title">name</string>
+    <string name="order_more">Order more</string>
+    <string name="phone">phone</string>
+    <string name="email">email</string>
+    <string name="contact_more_info_message">Contact supplier by either email or phone.</string>
 </resources>
